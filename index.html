@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>First Project</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <div class="container">
+    <form onsubmit="savetolocal(event)">
+    <label style="font-weight: bold;">Choose Expenseamount:</label>
+    <input type="number" id="amount" style="background-color: aqua;">
+
+    <label style="font-weight: bold">Choose Description:</label>
+    <input type="text" id="description" style="background-color: aqua;">
+
+    <label style="font-weight: bold;">Choose a category:</label>
+    <select id="category" style="background-color: aqua;">
+      <option value="Movie">Movie</option>
+      <option value="Travel">Travel</option>
+      <option value="Explore">Explore</option>
+      <option value="Forest Walk">Forest Walk</option>
+    </select><br><br>
+    <button class="btn btn-outline-primary">Add Expenses</button>
+    </form>
+    <ul id="items"></ul>
+    <script>function savetolocal(event)
+    {
+      event.preventDefault();
+      const amountt=event.target.amount.value;
+      const descriptionn=event.target.description.value;
+      const categoryy=event.target.category.value;
+
+      const obj={amountt,descriptionn,categoryy};
+localStorage.setItem(obj.categoryy,JSON.stringify(obj));
+ShowOnScreen(obj);
+    }
+    function ShowOnScreen(obj)
+    {
+      const ull=document.getElementById("items");
+      const li=document.createElement('li');
+      li.textContent=obj.amountt+" - "+obj.descriptionn+" - "+obj.categoryy;
+      const btn=document.createElement('button');
+btn.appendChild(document.createTextNode('Delete Expense'));
+btn.style.backgroundColor="yellow";
+btn.className="btn btn-outline-primary";
+btn.style.color="black";
+btn.onclick=()=>{
+  localStorage.removeItem(obj.categoryy);
+  ull.removeChild(li);
+}
+const edit=document.createElement('button');
+edit.appendChild(document.createTextNode('Edit Expense'));
+edit.style.backgroundColor="green";
+edit.className="btn btn-outline-primary";
+edit.style.color="black";
+edit.onclick=()=>{
+  localStorage.removeItem(obj.categoryy);
+  ull.removeChild(li);
+  document.getElementById('amount').value=obj.amountt;
+  document.getElementById('description').value=obj.descriptionn;
+  document.getElementById('category').value=obj.categoryy;
+}
+li.appendChild(btn);
+li.appendChild(edit);
+ull.appendChild(li);
+    }
+    </script>
+    </div>
+  </body>
+</html>
